@@ -5,12 +5,22 @@ const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/constants/**/*.{js,ts,jsx,tsx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
+      fontSize: {
+        "4xl": [
+          "32px",
+          {
+            lineHeight: "48px",
+          },
+        ],
+      },
       fontFamily: {
+        InterBold: ["Inter Bold", "sans-serif"],
         InterSemiBold: ["Inter Semi Bold", "sans-serif"],
         InterMedium: ["Inter Medium", "sans-serif"],
         InterRegular: ["Inter Regular", "sans-serif"],
@@ -25,9 +35,11 @@ const config: Config = {
         whisperGray: "#edeef0",
         slateBlue: "#363f54",
         charcoalBlue: "#20242d",
+        charcoalTeal: "#354e5a",
         dustyBlue: "#5b657e",
         сoolGray: "#a1a1aa",
         blueViolet: "#7470ee",
+        darkGrayishBlue: "#3f3f46",
       },
     },
   },

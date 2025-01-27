@@ -1,6 +1,11 @@
+// libs
 import type { Metadata, Viewport } from "next";
+import { ToastContainer } from "react-toastify";
+// providers
+import { MainProvider } from "@/providers/MainProvider";
+// styles
 import "../styles/globals.css";
-import { MainProvider } from "@/providers/mainProvider";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: "Vespera",
@@ -60,8 +65,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <head>
+        <meta name="mobile-web-app-capable" content="yes" />
+      </head>
+      <body id="root">
         <MainProvider>{children}</MainProvider>
+        <ToastContainer closeOnClick draggable stacked />
       </body>
     </html>
   );

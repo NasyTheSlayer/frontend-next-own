@@ -4,19 +4,25 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4000",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 4000",
     "lint": "next lint"
   },
   "dependencies": {
-    "@nextui-org/react": "^2.4.8",
+    "@hookform/resolvers": "^3.9.1",
+    "@nextui-org/react": "^2.6.7",
+    "@tanstack/react-query": "^5.62.3",
+    "axios": "^1.7.9",
     "framer-motion": "^11.11.9",
     "next": "14.2.14",
     "nextui-cli": "^0.3.5",
     "react": "^18",
     "react-dom": "^18",
-    "upgrade": "^1.1.0"
+    "react-hook-form": "^7.54.0",
+    "react-toastify": "^10.0.6",
+    "upgrade": "^1.1.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",

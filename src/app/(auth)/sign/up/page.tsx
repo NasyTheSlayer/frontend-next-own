@@ -1,12 +1,44 @@
 "use client";
-
-import { inputClassNames } from "@/constants/styles";
-import { Button, Checkbox, Divider, Input } from "@nextui-org/react";
-import Image from "next/image";
+// libs
+import { Button, Checkbox, Form, Input } from "@nextui-org/react";
 import Link from "next/link";
-import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+// components
+import { Socials } from "@/components/Socials";
+import { DividerWithText } from "@/components/DividerWithText";
+// utils
+import { signUpSchema } from "@/utils/validation/signUpSchema";
+// hooks
+import { useSignUp } from "@/hooks/useAuth";
+// constants
+import { inputClassNames } from "@/constants/styles";
+// types
+import { SignUpForm } from "@/types/AuthForm";
 
 export default function Page() {
+  const { mutate, isPending } = useSignUp();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpForm>({
+    resolver: zodResolver(signUpSchema),
+    mode: "onSubmit",
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      privacyPolicy: false,
+    },
+  });
+
+  const onSubmit = (data: SignUpForm) => {
+    mutate(data);
+  };
+
   return (
     <>
       <div className="flex flex-col justify-center text-center gap-2">
@@ -18,87 +50,92 @@ export default function Page() {
         </h2>
       </div>
 
-      <div className="flex w-full max-w-[500px] flex-col gap-7 mt-11">
-        <Input
-          type="text"
-          label="Username"
-          labelPlacement="outside"
-          placeholder="Your username"
-          classNames={inputClassNames}
-        />
-        <Input
-          type="email"
-          label="Email"
-          labelPlacement="outside"
-          placeholder="example@gmail.com"
-          classNames={inputClassNames}
-        />
-        <Input
-          type="password"
-          label="Password"
-          labelPlacement="outside"
-          placeholder="••••••••••"
-          classNames={inputClassNames}
-        />
-        <Input
-          type="password"
-          label="Confirm Password"
-          labelPlacement="outside"
-          placeholder="••••••••••"
-          classNames={inputClassNames}
-        />
-      </div>
+      <Form
+        onSubmit={handleSubmit(onSubmit)}
+        method="post"
+        validationBehavior="native"
+        className="w-full max-w-[500px]"
+      >
+        <div className="w-full flex flex-col gap-7 mt-11">
+          <Input
+            type="text"
+            label="Username"
+            labelPlacement="outside"
+            {...register("username")}
+            placeholder="Your username"
+            isInvalid={!!errors.username}
+            errorMessage={errors.username?.message}
+            classNames={inputClassNames}
+            autoComplete="username"
+          />
+          <Input
+            type="email"
+            label="Email"
+            labelPlacement="outside"
+            {...register("email")}
+            placeholder="example@gmail.com"
+            isInvalid={!!errors.email}
+            errorMessage={errors.email?.message}
+            classNames={inputClassNames}
+            autoComplete="email"
+          />
+          <Input
+            type="password"
+            label="Password"
+            {...register("password")}
+            labelPlacement="outside"
+            placeholder="••••••••••"
+            isInvalid={!!errors.password}
+            errorMessage={errors.password?.message}
+            classNames={inputClassNames}
+            autoComplete="new-password"
+          />
+          <Input
+            type="password"
+            label="Confirm Password"
+            {...register("confirmPassword")}
+            labelPlacement="outside"
+            placeholder="••••••••••"
+            isInvalid={!!errors.confirmPassword}
+            errorMessage={errors.confirmPassword?.message}
+            classNames={inputClassNames}
+            autoComplete="new-password"
+          />
+        </div>
 
-      <div className="w-full max-w-[500px] h-12 flex flex-row items-center justify-between mt-8">
         <Checkbox
           color="default"
           size="lg"
+          {...register("privacyPolicy")}
+          isInvalid={!!errors.privacyPolicy}
+          validationBehavior="aria"
           classNames={{
-            label: "text-md text-сoolGray",
+            label: `text-md ${!errors.privacyPolicy && "text-сoolGray"}`,
+            base: "h-12 flex flex-row items-center justify-between mt-8",
           }}
         >
           I agree to the Terms and Conditions
         </Checkbox>
-      </div>
 
-      <Button
-        color="secondary"
-        size="lg"
-        className="w-full h-full max-w-[500px] max-h-12 mt-6"
-      >
-        Sign up
-      </Button>
-
-      <div className="flex items-center my-4 w-full max-w-[500px]">
-        <Divider className="flex-1 border-slateBlue" />
-        <p className="mx-4 text-сoolGray">OR</p>
-        <Divider className="flex-1 border-slateBlue" />
-      </div>
-
-      <div className="flex items-center gap-4">
-      {["google", "github", "discord"].map((platform, index) => (
-          <Button
-            key={index}
-            isIconOnly
-            aria-label={platform}
-            className="w-[156px] h-12"
-          >
-            <Image
-              width={25}
-              height={25}
-              src={`/assets/icons/auth/${platform}.svg`}
-              alt={platform}
-            />
-          </Button>
-        ))}
-      </div>
-
-      <div className="mt-11">
-        <span className="text-сoolGray">Already have an account? </span>
-        <Link
-          href="in"
-          className="text-blueViolet"
+        <Button
+          isDisabled={isPending}
+          isLoading={isPending}
+          type="submit"
+          color="secondary"
+          size="lg"
+          className="w-full h-12 mt-6"
         >
+          {!isPending && "Sign up"}
+        </Button>
+      </Form>
+
+      <DividerWithText text={"OR"} />
+
+      <Socials />
+
+      <div className="text-center mt-11">
+        <span className="text-сoolGray">Already have an account? </span>
+        <Link href="in" className="text-blueViolet">
           Log in
         </Link>
       </div>

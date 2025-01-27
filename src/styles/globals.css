@@ -3,31 +3,43 @@
 @tailwind utilities;
 
 @font-face {
+  font-family: "Inter Bold";
+  src: url("/assets/fonts/Inter_24pt-Bold.ttf");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "Inter Semi Bold";
-  src: url('/assets/fonts/Inter_24pt-SemiBold.ttf');
+  src: url("/assets/fonts/Inter_24pt-SemiBold.ttf");
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Inter Medium";
-  src: url('/assets/fonts/Inter_28pt-Medium.ttf');
+  src: url("/assets/fonts/Inter_24pt-Medium.ttf");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Inter Regular";
-  src: url('/assets/fonts/Inter_24pt-Regular.ttf');
+  src: url("/assets/fonts/Inter_24pt-Regular.ttf");
   font-weight: 400;
   font-style: normal;
 }
 
 :root {
   --background: #101114;
+  --coolGray: #a1a1aa;
 }
 
 body {
   background: var(--background);
   font-family: "Inter Regular", sans-serif;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: var(--coolGray);
 }
